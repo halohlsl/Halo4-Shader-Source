@@ -1,0 +1,112 @@
+//
+// File:	 srf_constant.fx
+// Author:	 hocoulby
+// Date:	 06/16/10
+//
+// Surface Shader - Constant, no diffuse illumination model, may have specular though
+//
+// Copyright (c) 343 Industries. All rights reserved.
+//
+//
+
+// no sh airporbe lighting needed for constant shader
+#define DISABLE_SH
+#define DISABLE_VMF
+#define DISABLE_NORMAL
+#define DISABLE_TANGENT_FRAME
+
+#include "core/core.fxh"
+#include "engine/engine_parameters.fxh"
+#include "lighting/lighting.fxh"
+
+// Texture Samplers
+DECLARE_SAMPLER( color_map, "Color Map", "Color Map", "shaders/default_bitmaps/bitmaps/default_diff.tif")
+#include "next_texture.fxh"
+DECLARE_SAMPLER( meter_map, "Meter Map", "Meter Map", "shaders/default_bitmaps/bitmaps/monochrome_alpha_grid.bitmap")
+#include "next_texture.fxh"
+
+
+// Diffuse
+DECLARE_RGB_COLOR_WITH_DEFAULT(albedo_tint,		"Albedo Tint", "", float3(1,1,1));
+#include "used_float3.fxh"
+DECLARE_FLOAT_WITH_DEFAULT(albedo_intensity,		"Albedo Intensity", "", 0, 1, float(1.0));
+#include "used_float.fxh"
+
+// Meter
+DECLARE_RGB_COLOR_WITH_DEFAULT(meter_off_color,	"Meter Off Color", "", float3(1,0,0));
+#include "used_float3.fxh"
+DECLARE_RGB_COLOR_WITH_DEFAULT(meter_on_color,	"Meter On Color", "", float3(0,1,0));
+#include "used_float3.fxh"
+DECLARE_FLOAT_WITH_DEFAULT(meter_value,			"Meter Value", "", 0, 1, float(0.5));
+#include "used_float.fxh"
+
+
+
+struct s_shader_data
+{
+	s_common_shader_data common;
+    float3 meterValue;
+    float alpha;
+};
+
+
+void pixel_pre_lighting(
+		in s_pixel_shader_input pixel_shader_input,
+		inout s_shader_data shader_data)
+{
+	float2 uv    		= pixel_shader_input.texcoord.xy;
+
+    {// Sample color map.
+	    float2 color_map_uv 	  = transform_texcoord(uv, color_map_transform);
+	    shader_data.common.albedo = sample2DGamma(color_map, color_map_uv);
+        shader_data.alpha = shader_data.common.albedo.a;
+
+		shader_data.common.albedo.rgb *= albedo_tint.rgb;
+		shader_data.common.albedo.a = shader_data.alpha;
+	}
+
+
+    { // sample self illum map
+    	float2 meter_map_uv = transform_texcoord(uv, meter_map_transform);
+	    float4 meter_map_sample = sample2DGamma(meter_map, meter_map_uv);
+
+		shader_data.meterValue = (meter_map_sample.x >= 0.5f) ?
+					(meter_value >= meter_map_sample.w) ?
+						meter_on_color.xyz :
+						meter_off_color.xyz :
+					float3(0, 0, 0);
+    }
+
+
+}
+
+// lighting
+float4 pixel_lighting(
+        in s_pixel_shader_input pixel_shader_input,
+	    inout s_shader_data shader_data)
+{
+    // input from s_shader_data
+    float4 albedo         = shader_data.common.albedo ;
+
+     //.. Finalize Output Color
+	float4 out_color = float4(0.0f, 0.0f, 0.0f, shader_data.alpha);
+
+	if (AllowSelfIllum(shader_data.common))
+	{
+		out_color.rgb += albedo.rgb * albedo_intensity;
+	}
+
+	// self illum
+    if (AllowSelfIllum(shader_data.common))
+    {
+		out_color.rgb += shader_data.meterValue;
+
+		// Output self-illum intensity as linear luminance of the added value
+		shader_data.common.selfIllumIntensity = GetLinearColorIntensity(shader_data.meterValue);
+	}
+
+	return out_color;
+}
+
+
+#include "techniques.fxh"

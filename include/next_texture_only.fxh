@@ -1,0 +1,19 @@
+#if !defined(USER_TEXTURE)
+#undef USER_TEXTURE
+#define USER_TEXTURE 16
+#elif USER_TEXTURE == 16
+#undef USER_TEXTURE
+#define USER_TEXTURE 17
+#elif USER_TEXTURE== 17
+#undef USER_TEXTURE
+#define USER_TEXTURE 18
+#elif USER_TEXTURE== 18
+#undef USER_TEXTURE
+#define USER_TEXTURE 19
+#elif USER_TEXTURE== 19
+#undef USER_TEXTURE
+#define USER_TEXTURE 20
+#elif USER_TEXTURE== 20
+#undef USER_TEXTURE
+#define USER_TEXTURE 21
+#endif
