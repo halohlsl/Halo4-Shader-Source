@@ -1,0 +1,3 @@
+#define DISABLE_ORDER_INDEPENDENT_TRANSPARENCY
+
+#include "xsrf_cortana_hair_blinn_placeholder.fx"

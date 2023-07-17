@@ -121,7 +121,7 @@ float3 VMFSpecularCustomEvaluateNoClamp(
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Returns the NÂ·L evaluation of the VMF
+// Returns the N·L evaluation of the VMF
 float3 VMFDiffuse(
     const in s_vmf_sample_data vmfData,
     const in float3 normal,
@@ -158,7 +158,7 @@ float3 VMFDiffuse(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Returns the NÂ·L WRAP evaluation of the VMF
+// Returns the N·L WRAP evaluation of the VMF
 float3 wrap_lighting(
             const in s_vmf_sample_data vmfData,
             const in float3 normal,
@@ -205,7 +205,7 @@ float3 VMFDiffuseWrap(
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Returns the NÂ·L fill evaluation of the VMF
+// Returns the N·L fill evaluation of the VMF
 
 float3 VmfFillLighting(
             const in s_vmf_sample_data vmfData,

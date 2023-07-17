@@ -433,11 +433,11 @@ float get_delta_difference_weight_greater_than_threshold( float value, float val
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 // This method is designed to filter the SSAO results using depth- and normal-aware Gaussian filter (quasi-bilateral).
-// The goals is to preserve depth and normal discontinuity across SSAO results. ThisÂ blurÂ kernel samplesÂ theÂ nearbyÂ pixelsÂ asÂ aÂ regularÂ GaussianÂ blurÂ 
-// shaderÂ would,Â yetÂ theÂ normalÂ andÂ depthÂ forÂ eachÂ ofÂ theÂ GaussianÂ samplesÂ isÂ sampledÂ asÂ well.Â IfÂ eitherÂ theÂ 
-// depthÂ fromÂ GaussianÂ sampleÂ differsÂ fromÂ theÂ centerÂ tapÂ byÂ moreÂ thanÂ aÂ certainÂ threshold,Â orÂ theÂ dotÂ productÂ ofÂ theÂ GaussianÂ sampleÂ andÂ theÂ centerÂ 
-// tapÂ normalÂ isÂ lessÂ thanÂ aÂ certainÂ thresholdÂ value,Â thenÂ theÂ GaussianÂ weightÂ isÂ reducedÂ toÂ zero.Â TheÂ sumÂ ofÂ theÂ GaussianÂ samplesÂ isÂ thenÂ 
-// renormalizedÂ toÂ accountÂ forÂ theÂ missingÂ samples.Â 
+// The goals is to preserve depth and normal discontinuity across SSAO results. This blur kernel samples the nearby pixels as a regular Gaussian blur 
+// shader would, yet the normal and depth for each of the Gaussian samples is sampled as well. If either the 
+// depth from Gaussian sample differs from the center tap by more than a certain threshold, or the dot product of the Gaussian sample and the center 
+// tap normal is less than a certain threshold value, then the Gaussian weight is reduced to zero. The sum of the Gaussian samples is then 
+// renormalized to account for the missing samples. 
 // This particular method is designed for a Gaussian filter which radius can be easily changed by a #define above.
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 float filter_ssao_with_normals( float2 offset_direction, float2 texcoord )
@@ -498,10 +498,10 @@ float filter_ssao_with_normals( float2 offset_direction, float2 texcoord )
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 // This method is designed to filter the SSAO results using only depth-aware Gaussian filter (quasi-bilateral).
-// The goals is to preserve depth discontinuity across SSAO results. ThisÂ blurÂ kernel samplesÂ theÂ nearbyÂ pixelsÂ asÂ aÂ regularÂ GaussianÂ blurÂ 
-// shaderÂ would,Â yetÂ depthÂ forÂ eachÂ ofÂ theÂ GaussianÂ samplesÂ isÂ sampledÂ asÂ well.Â IfÂ theÂ depthÂ fromÂ GaussianÂ sampleÂ differsÂ fromÂ theÂ centerÂ 
-// tapÂ byÂ moreÂ thanÂ aÂ certainÂ threshold, thenÂ theÂ GaussianÂ weightÂ isÂ reducedÂ toÂ zero.Â TheÂ sumÂ ofÂ theÂ GaussianÂ samplesÂ isÂ thenÂ renormalizedÂ toÂ accountÂ forÂ 
-// theÂ missingÂ samples.Â 
+// The goals is to preserve depth discontinuity across SSAO results. This blur kernel samples the nearby pixels as a regular Gaussian blur 
+// shader would, yet depth for each of the Gaussian samples is sampled as well. If the depth from Gaussian sample differs from the center 
+// tap by more than a certain threshold, then the Gaussian weight is reduced to zero. The sum of the Gaussian samples is then renormalized to account for 
+// the missing samples. 
 // This particular method is designed for a separable Gaussian filter which radius can be easily changed by a #define above.
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 float filter_ssao_dynamic_kernel( float2 offset_direction, float2 texcoord )
@@ -550,10 +550,10 @@ float filter_ssao_dynamic_kernel( float2 offset_direction, float2 texcoord )
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 // This method is designed to filter the SSAO results using only depth-aware Gaussian filter (quasi-bilateral).
-// The goals is to preserve depth discontinuity across SSAO results. ThisÂ blurÂ kernel samplesÂ theÂ nearbyÂ pixelsÂ asÂ aÂ regularÂ GaussianÂ blurÂ 
-// shaderÂ would,Â yetÂ depthÂ forÂ eachÂ ofÂ theÂ GaussianÂ samplesÂ isÂ sampledÂ asÂ well.Â IfÂ theÂ depthÂ fromÂ GaussianÂ sampleÂ differsÂ fromÂ theÂ centerÂ 
-// tapÂ byÂ moreÂ thanÂ aÂ certainÂ threshold, thenÂ theÂ GaussianÂ weightÂ isÂ reducedÂ toÂ zero.Â TheÂ sumÂ ofÂ theÂ GaussianÂ samplesÂ isÂ thenÂ renormalizedÂ toÂ accountÂ forÂ 
-// theÂ missingÂ samples.Â 
+// The goals is to preserve depth discontinuity across SSAO results. This blur kernel samples the nearby pixels as a regular Gaussian blur 
+// shader would, yet depth for each of the Gaussian samples is sampled as well. If the depth from Gaussian sample differs from the center 
+// tap by more than a certain threshold, then the Gaussian weight is reduced to zero. The sum of the Gaussian samples is then renormalized to account for 
+// the missing samples. 
 // This method is coded very specifically for an 11-tap separable horizontal Gaussian for performance reasons.
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 float filter_ssao_horizontal_11_tap_bilateral_gaussian( float2 texcoord )
@@ -594,10 +594,10 @@ float filter_ssao_horizontal_11_tap_bilateral_gaussian( float2 texcoord )
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 // This method is designed to filter the SSAO results using only depth-aware Gaussian filter (quasi-bilateral).
-// The goals is to preserve depth discontinuity across SSAO results. ThisÂ blurÂ kernel samplesÂ theÂ nearbyÂ pixelsÂ asÂ aÂ regularÂ GaussianÂ blurÂ 
-// shaderÂ would,Â yetÂ depthÂ forÂ eachÂ ofÂ theÂ GaussianÂ samplesÂ isÂ sampledÂ asÂ well.Â IfÂ theÂ depthÂ fromÂ GaussianÂ sampleÂ differsÂ fromÂ theÂ centerÂ 
-// tapÂ byÂ moreÂ thanÂ aÂ certainÂ threshold, thenÂ theÂ GaussianÂ weightÂ isÂ reducedÂ toÂ zero.Â TheÂ sumÂ ofÂ theÂ GaussianÂ samplesÂ isÂ thenÂ renormalizedÂ toÂ accountÂ forÂ 
-// theÂ missingÂ samples.Â 
+// The goals is to preserve depth discontinuity across SSAO results. This blur kernel samples the nearby pixels as a regular Gaussian blur 
+// shader would, yet depth for each of the Gaussian samples is sampled as well. If the depth from Gaussian sample differs from the center 
+// tap by more than a certain threshold, then the Gaussian weight is reduced to zero. The sum of the Gaussian samples is then renormalized to account for 
+// the missing samples. 
 // This method is coded very specifically for an 11-tap separable horizontal Gaussian for performance reasons.
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 float filter_ssao_vertical_11_tap_bilateral_gaussian( float2 texcoord )

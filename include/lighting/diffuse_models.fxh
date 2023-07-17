@@ -8,7 +8,7 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lambert diffuse model (NÂ·L)
+// Lambert diffuse model (N·L)
 
 void calc_diffuse_lambert_initializer(
     inout float3 diffuse,
@@ -97,7 +97,7 @@ MAKE_ACCUMULATING_LOOP_3(float3, calc_diffuse_lambert_wrap, float3, float, bool,
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lambert diffuse "fill" model (NÂ·L)
+// Lambert diffuse "fill" model (N·L)
 
 // [hcoulby: 06/03/2011]
 // Not adding SH Lighting to this function becuase I will be removing it soon
@@ -156,7 +156,7 @@ MAKE_ACCUMULATING_LOOP_3(float3, calc_diffuse_lambert_fill, float3, float, float
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lambert diffuse model (NÂ·L) with Back Lighting
+// Lambert diffuse model (N·L) with Back Lighting
 
 void calc_diffuse_backlighting_initializer(
     inout float3 diffuse,

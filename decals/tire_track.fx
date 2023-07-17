@@ -1,0 +1,4 @@
+#define DECAL_ALPHA_MAP
+#define DECAL_OUTPUT_NORMAL
+#define DECAL_DISABLE_TEXCOORD_CLIP
+#include "base.fx"
